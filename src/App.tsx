@@ -3,6 +3,7 @@ import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import Homepage from './Pages /Homepage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import '@mantine/carousel/styles.css';
 
 function App() {
   const theme = createTheme({
