@@ -21,10 +21,6 @@ const JobCategory=()=>{
       previousControlIcon={<IconArrowLeft className="h-8 w-8" />}
       
       >
-
-
-
-
         {
 
         jobCategory.map((category,index)=><Carousel.Slide>
