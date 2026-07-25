@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { IconBookmark, IconClockHour3 } from "@tabler/icons-react";
 import { Divider, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 const JobCard = (props: any) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="bg-mine-shaft-900 p-5 w-85 flex flex-col gap-7 rounded-xl">
+    <Link to="/jobs" className="bg-mine-shaft-900 p-5 w-85 flex flex-col gap-7 rounded-xl">
       {/* Header */}
       <div className="flex justify-between">
         <div className="flex gap-3 items-center">
@@ -67,7 +68,7 @@ const JobCard = (props: any) => {
           <span>{props.postedDaysAgo}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
