@@ -1,4 +1,4 @@
-import { ExposurePlus1 } from "tabler-icons-react"
+
 import JobCard from "../FindJobs/JobCard";
 import { jobList } from "../Data/JobsData";
 
