@@ -13,16 +13,16 @@ const PostJob =() =>
         </div>
         <div className="flex flex-col gap-5">
                <div className="flex gap-10 mb-5 [&>*]:w-1/2 ">
-                 <SelectInput {...select[0]} />
-                  <SelectInput {...select[1]} />
+                 <SelectInput withAsterisk {...select[0]} />
+                  <SelectInput withAsterisk {...select[1]} />
                </div>
                 <div className="flex gap-10 mb-5 [&>*]:w-1/2 ">
-                 <SelectInput {...select[2]} />
-                  <SelectInput {...select[3]} />
+                 <SelectInput withAsterisk {...select[2]} />
+                  <SelectInput withAsterisk {...select[3]} />
                </div>
                <div className="flex gap-10 mb-5 [&>*]:w-1/2 ">
-                 <SelectInput {...select[4]} />
-                  <SelectInput {...select[5]} />
+                 <SelectInput withAsterisk {...select[4]} />
+                  <SelectInput withAsterisk {...select[5]} />
                </div>
                <TagsInput withAsterisk
   label="Skills"

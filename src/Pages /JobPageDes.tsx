@@ -15,10 +15,8 @@ const JobPageDesc = () =>{
         <div className="flex gap-5 justify-around">
         <JobDescription />
         <Recommendedjobs />
-    
         </div>
         </div>
-
     )
 }
 export default JobPageDesc;
