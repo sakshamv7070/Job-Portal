@@ -1,4 +1,3 @@
-
 import JobCard from "../FindJobs/JobCard";
 import { jobList } from "../Data/JobsData";
 

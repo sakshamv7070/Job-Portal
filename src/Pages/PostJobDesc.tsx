@@ -1,6 +1,4 @@
 import { Badge, Tabs } from "@mantine/core";
-import PostedJob from "../Pages/PostedJob";
-import ApplyJobPage from "../Pages /ApplyJobPage";
 import JobDescription from "../JobDesc/JobDescription";
 
 const PostedJobDesc = () => {
