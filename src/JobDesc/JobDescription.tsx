@@ -10,7 +10,7 @@ import DOMPurify from "dompurify";
 
 import { card, skills, desc } from "../Data/JobDescData";
 
-const JobDescription = () => {
+const JobDescription = (props: any) => {
   const data = DOMPurify.sanitize(desc);
 
   return (
@@ -32,30 +32,51 @@ const JobDescription = () => {
             </h1>
 
             <p className="text-mine-shaft-300">
-              Google &#x2022; 3 days ago &bull; 120 Applicants
+              Google • 3 days ago • 120 Applicants
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
+
           <Link to="/apply-job">
-            <Button color="brightSun.4" variant="light">
-              Apply
+            <Button 
+              color="yellow" 
+              variant="light"
+            >
+              {props.edit ? "Edit" : "Apply"}
             </Button>
           </Link>
 
-          <ActionIcon
-            variant="light"
-            color="brightSun.4"
-            radius="xl"
-            size="xl"
-          >
-            <IconBookmark stroke={1.8} />
-          </ActionIcon>
+         {
+  props.edit ? (
+    <Button
+      color="red.5"
+      size="sm"
+      variant="outline"
+    >
+      Delete
+    </Button>
+  ) : (
+    <ActionIcon
+      variant="light"
+      color="yellow"
+      size="xl"
+    >
+      <IconBookmark
+        className="cursor-pointer text-yellow-400"
+        stroke={1.5}
+      />
+    </ActionIcon>
+  )
+}
+
         </div>
       </div>
 
+
       <Divider my="xl" />
+
 
       {/* Job Details */}
       <div className="flex justify-between flex-wrap gap-6">
@@ -65,7 +86,7 @@ const JobDescription = () => {
             className="flex flex-col items-center gap-2"
           >
             <ActionIcon
-              color="brightSun.4"
+              color="yellow"
               variant="light"
               radius="xl"
               size="xl"
@@ -90,7 +111,9 @@ const JobDescription = () => {
         ))}
       </div>
 
+
       <Divider my="xl" />
+
 
       {/* Skills */}
       <h2 className="text-xl font-semibold mb-5">
@@ -101,7 +124,7 @@ const JobDescription = () => {
         {skills.map((item: string, index: number) => (
           <Badge
             key={index}
-            color="brightSun.4"
+            color="yellow"
             variant="light"
             radius="xl"
             size="lg"
@@ -111,12 +134,15 @@ const JobDescription = () => {
         ))}
       </div>
 
+
       <Divider my="xl" />
+
 
       {/* Job Description */}
       <h2 className="text-xl font-semibold mb-5">
         Job Description
       </h2>
+
 
       <div
         className="
@@ -149,18 +175,20 @@ const JobDescription = () => {
 
           [&_strong]:font-bold
 
-          [&_a]:text-bright-sun-400
+          [&_a]:text-yellow-400
           [&_a]:underline
 
           [&_blockquote]:border-l-4
-          [&_blockquote]:border-bright-sun-400
+          [&_blockquote]:border-yellow-400
           [&_blockquote]:pl-4
           [&_blockquote]:italic
         "
         dangerouslySetInnerHTML={{ __html: data }}
       />
 
+
       <Divider my="xl" />
+
 
       {/* About Company */}
       <div>
@@ -168,8 +196,9 @@ const JobDescription = () => {
           About Company
         </h2>
 
+
         <div className="flex justify-between items-center mb-6">
-          {/* Company Info */}
+
           <div className="flex gap-4 items-center">
             <div className="p-3 bg-mine-shaft-800 rounded-xl">
               <img
@@ -178,6 +207,7 @@ const JobDescription = () => {
                 alt="Google"
               />
             </div>
+
 
             <div>
               <h3 className="text-lg font-semibold">
@@ -188,18 +218,21 @@ const JobDescription = () => {
                 Internet • Technology • 100K+ Employees
               </p>
             </div>
+
           </div>
 
-          {/* Company Page */}
+
           <Link to="/company/google">
             <Button
-              color="brightSun.4"
+              color="yellow"
               variant="light"
             >
               Company Page
             </Button>
           </Link>
+
         </div>
+
 
         <p className="text-mine-shaft-300 leading-7">
           Google is one of the world's leading technology
@@ -207,12 +240,11 @@ const JobDescription = () => {
           information and making it universally accessible and
           useful. The company develops products and services
           including Search, Android, Chrome, Gmail, YouTube,
-          Google Cloud, and AI-powered technologies. Employees
-          work on large-scale engineering challenges in a
-          collaborative, innovative, and growth-oriented
-          environment.
+          Google Cloud, and AI-powered technologies.
         </p>
+
       </div>
+
     </div>
   );
 };
