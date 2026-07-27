@@ -44,7 +44,7 @@ const Applyjobcamp = () => {
     setInterval(()=>{
           x--;
           setsec(x);
-          if(x==0)navigate('/find-jobs');
+          if(x===0)navigate('/find-jobs');
     },1000)
 
     
