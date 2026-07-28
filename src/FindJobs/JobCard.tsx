@@ -7,64 +7,84 @@ const JobCard = (props: any) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Link to="/jobs" className="bg-mine-shaft-900 p-5 w-85 flex flex-col gap-7 rounded-xl">
+    <Link
+      to="/jobs"
+      className="w-full rounded-2xl border border-mine-shaft-800 bg-mine-shaft-900 p-6 flex flex-col gap-5 transition-all duration-300 hover:-translate-y-2 hover:border-bright-sun-400 hover:shadow-[0_0_20px_rgba(255,204,0,0.2)]"
+    >
       {/* Header */}
-      <div className="flex justify-between">
-        <div className="flex gap-3 items-center">
-          <div className="p-2 bg-mine-shaft-800 rounded-md">
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-mine-shaft-800">
             <img
-              className="h-7"
+              className="h-8 w-8 object-contain"
               src={`/Icons/${props.company}.png`}
-              alt=""
+              alt={props.company}
             />
           </div>
 
           <div>
-            <div className="font-semibold">{props.jobTitle}</div>
-            <div className="text-xs text-mine-shaft-300">
-              {props.company} &#x2022; {props.applicants}
-            </div>
+            <h3 className="text-lg font-semibold text-mine-shaft-50">
+              {props.jobTitle}
+            </h3>
+
+            <p className="text-sm text-mine-shaft-400">
+              {props.company} • {props.applicants}
+            </p>
           </div>
         </div>
 
-        <IconBookmark className="text-mine-shaft-300 cursor-pointer" />
+        <div className="rounded-full bg-mine-shaft-800 p-2 transition hover:bg-bright-sun-400/20 hover:text-bright-sun-400">
+          <IconBookmark size={20} stroke={1.8} />
+        </div>
       </div>
 
       {/* Tags */}
-      <div className="flex justify-between gap-2 [&>div]:py-1 [&>div]:px-2 [&>div]:bg-mine-shaft-800 [&>div]:rounded-lg [&>div]:text-bright-sun-400 text-xs">
-        <div>{props.experience}</div>
-        <div>{props.jobType}</div>
-        <div>{props.location}</div>
+      <div className="flex flex-wrap gap-2">
+        {[props.experience, props.jobType, props.location].map(
+          (item, index) => (
+            <div
+              key={index}
+              className="rounded-md bg-mine-shaft-800 px-3 py-1 text-xs font-medium text-bright-sun-400"
+            >
+              {item}
+            </div>
+          )
+        )}
       </div>
 
       {/* Description */}
       <div>
         <Text
-          className="!text-xs text-mine-shaft-300 leading-5"
+          className="!text-sm !leading-6 text-mine-shaft-300"
           lineClamp={expanded ? undefined : 4}
         >
           {props.description}
         </Text>
 
         <button
-          onClick={() => setExpanded(!expanded)}
-          className="mt-2 text-xs text-bright-sun-400 hover:underline"
+          onClick={(e) => {
+            e.preventDefault();
+            setExpanded(!expanded);
+          }}
+          className="mt-2 text-xs font-medium text-bright-sun-400 hover:underline"
         >
           {expanded ? "Show Less" : "Read More"}
         </button>
       </div>
 
-      {/* Divider */}
-      <Divider className="border-mine-shaft-700 size-xs" />
+      <Divider color="gray.8" />
 
       {/* Footer */}
-      <div className="flex justify-between items-center">
-        <div className="font-semibold text-mine-shaft-300">
-          &#8377;{props.package} LPA
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-mine-shaft-400">Salary</p>
+          <h3 className="text-lg font-semibold text-bright-sun-400">
+            ₹{props.package} 
+          </h3>
         </div>
 
-        <div className="flex gap-2 items-center text-xs text-mine-shaft-400">
-          <IconClockHour3 className="h-5 w-5" stroke={1.5} />
+        <div className="flex items-center gap-2 text-sm text-mine-shaft-300">
+          <IconClockHour3 size={18} stroke={1.8} />
           <span>{props.postedDaysAgo}</span>
         </div>
       </div>

@@ -1,46 +1,55 @@
-import {  IconHeart,  IconMapPin } from "@tabler/icons-react";
-import { Avatar, Divider, Text, Button } from "@mantine/core";
+import { IconHeart, IconMapPin } from "@tabler/icons-react";
+import { Avatar, Button, Divider, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const TalentCard = (props:any) => {
-    const [expanded, setExpanded] = useState(false);
+const TalentCard = (props: any) => {
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    
-    <div className="bg-mine-shaft-900 p-5 w-85 flex flex-col gap-7 rounded-xl transition duration-300 ease-in-out flex-col hover:shadoq-[0_0_5px_1px_yellow] w-96">
-      
-      <div className="flex justify-between">
-        <div className="flex gap-3 items-center">
-          <div className="p-2 bg-mine-shaft-800 rounded-full ">
+    <div className="w-96 rounded-2xl bg-mine-shaft-900 border border-mine-shaft-800 p-6 flex flex-col gap-5 transition-all duration-300 hover:-translate-y-2 hover:border-bright-sun-400 hover:shadow-[0_0_20px_rgba(255,204,0,0.2)]">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-4">
+          <div className="rounded-full bg-mine-shaft-800 p-1">
             <Avatar
-            size-lg
+              size={60}
               src={`${props.image}.png`}
-              alt=""
+              alt={props.name}
             />
           </div>
 
           <div>
-            <div className="font-semibold text-lg">{props.name}</div>
-            <div className="text-sm text-mine-shaft-300">
-              {props.role} &#x2022; {props.company}
-            </div>
+            <h3 className="text-lg font-semibold text-mine-shaft-50">
+              {props.name}
+            </h3>
+
+            <p className="text-sm text-mine-shaft-400">
+              {props.role} • {props.company}
+            </p>
           </div>
         </div>
 
-        <IconHeart className="text-mine-shaft-300 cursor-pointer" />
-      </div>
-      <div className="flex gap-2">
-         {
-            props.topSkills?.map((skill:any,index:any)=><div key={index} className="p-2 py-1 bg-mine-shaft-800 text-bright-sun-400 rounded-lg text-xs">{skill}</div>)
-         }
+        <div className="rounded-full bg-mine-shaft-800 p-2 cursor-pointer transition hover:bg-red-500/20 hover:text-red-500">
+          <IconHeart size={20} stroke={1.8} />
+        </div>
       </div>
 
-      
+      {/* Skills */}
+      <div className="flex flex-wrap gap-2">
+        {props.topSkills?.map((skill: any, index: number) => (
+          <div
+            key={index}
+            className="rounded-md bg-mine-shaft-800 px-3 py-1 text-xs font-medium text-bright-sun-400"
+          >
+            {skill}
+          </div>
+        ))}
+      </div>
 
-      {/* Description */}
+      {/* About */}
       <Text
-        className="!text-xs text-mine-shaft-300 leading-5"
+        className="!text-sm !leading-6 text-mine-shaft-300"
         lineClamp={expanded ? undefined : 4}
       >
         {props.about}
@@ -48,34 +57,51 @@ const TalentCard = (props:any) => {
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="text-bright-sun-400 text-xs mt-1"
+        className="w-fit text-xs font-medium text-bright-sun-400 hover:underline"
       >
         {expanded ? "Show Less" : "Read More"}
       </button>
-      {/* Divider */}
-      <Divider className="border-mine-shaft-700 size-xs" />
 
-     
-      <div className="flex justify-between items-center">
-        <div className="font-semibold text-mine-shaft-300">
-          &#8377;{props.expectedCtc}
+      <Divider color="gray.8" />
+
+      {/* Salary & Location */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-mine-shaft-400">Expected CTC</p>
+          <h3 className="text-lg font-semibold text-bright-sun-400">
+            {props.expectedCtc}
+          </h3>
         </div>
 
-        <div className="flex gap-2 items-center text-xs text-mine-shaft-400">
-          <IconMapPin className="h-5 w-5" stroke={1.5} />
+        <div className="flex items-center gap-2 text-sm text-mine-shaft-300">
+          <IconMapPin size={18} stroke={1.7} />
           <span>{props.location}</span>
         </div>
       </div>
-      <Divider className="border-mine-shaft-700 size-xs" />
-      <div className="flex [&>*]:w-1/2 [&>*]:p-1 ">
-        <Link to="/talent-profile">
-        <Button color="brightSun.4" variant="outline" fullWidth>Profile</Button>
+
+      <Divider color="gray.8" />
+
+      {/* Buttons */}
+      <div className="flex gap-3">
+        <Link to="/talent-profile" className="flex-1">
+          <Button
+            color="brightSun.4"
+            variant="outline"
+            radius="md"
+            fullWidth
+          >
+            View Profile
+          </Button>
         </Link>
-        <div>
-              <Button color="brightSun.4" variant="light" fullWidth>Message</Button>
-        </div>
-         
-       
+
+        <Button
+          color="brightSun.4"
+          variant="light"
+          radius="md"
+          className="flex-1"
+        >
+          Message
+        </Button>
       </div>
     </div>
   );

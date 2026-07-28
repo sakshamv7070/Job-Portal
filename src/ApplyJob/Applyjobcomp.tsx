@@ -3,22 +3,24 @@ import {
   Button,
   Divider,
   FileInput,
+  LoadingOverlay,
+  Notification,
+  Paper,
+  rem,
   TextInput,
   Textarea,
-  Notification,
-  rem,
-  LoadingOverlay
 } from "@mantine/core";
 import { IconCheck, IconUpload } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Applyjobcamp = () => {
+  const navigate = useNavigate();
+
   const [preview, setPreview] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [sec, setsec]= useState(5);
-  const navigate = useNavigate();
+  const [sec, setSec] = useState(5);
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,8 +28,24 @@ const Applyjobcamp = () => {
   const [coverLetter, setCoverLetter] = useState("");
   const [resume, setResume] = useState<File | null>(null);
 
+  useEffect(() => {
+    if (!submitted) return;
+
+    if (sec === 0) {
+      navigate("/find-jobs");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setSec((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [submitted, sec, navigate]);
+
   const handlePreview = () => {
     setPreview(!preview);
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -36,202 +54,211 @@ const Applyjobcamp = () => {
 
   const handleSubmit = () => {
     if (!fullName || !email || !phone || !resume) {
-      alert("Please fill all required fields before submitting.");
       return;
     }
-    setSubmitted(true);
-    let x =5;
-    setInterval(()=>{
-          x--;
-          setsec(x);
-          if(x===0)navigate('/find-jobs');
-    },1000)
 
-    
+    setSubmitted(true);
+    setSec(5);
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
-    setTimeout(() => {
-      setSubmitted(false);
-      setPreview(false);
-      setFullName("");
-      setEmail("");
-      setPhone("");
-      setWebsite("");
-      setCoverLetter("");
-      setResume(null);
-    }, 3000);
   };
 
   return (
     <>
+      <LoadingOverlay
+        visible={submitted}
+        className="!fixed"
+        zIndex={1000}
+        overlayProps={{
+          blur: 3,
+          radius: "sm",
+        }}
+        loaderProps={{
+          color: "brightSun.4",
+          type: "bars",
+        }}
+      />
 
-    <div className="w-2/3 mx-auto py-8">
-    <LoadingOverlay className="!fixed "
-     visible={submitted}
-     zIndex={1000}
-     overlayProps={{radius: 'sm', blur: 2}}
-     loaderProps={{ color: 'brightSun.4', type: 'bars'}}
-     />
-      {/* Header */}
-      <div className="flex justify-between items-center p-6">
-        <div className="flex items-center gap-4">
-          <img
-            className="h-14 w-14 object-contain"
-            src="/Icons/Google.png"
-            alt="Google"
-          />
+      <div className="max-w-4xl mx-auto py-10 px-4">
+        <Paper
+          radius="xl"
+          p="xl"
+          className="bg-mine-shaft-900 border border-mine-shaft-800"
+        >
+          {/* Header */}
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 items-center">
+              <div className="w-16 h-16 rounded-xl bg-mine-shaft-800 flex items-center justify-center">
+                <img
+                  src="/Icons/Google.png"
+                  alt="Google"
+                  className="h-10 object-contain"
+                />
+              </div>
 
-          <div className="flex flex-col gap-1">
-            <h1 className="text-2xl font-semibold">
-              Software Developer
-            </h1>
+              <div>
+                <h1 className="text-2xl font-bold text-mine-shaft-50">
+                  Software Developer
+                </h1>
 
-            <p className="text-mine-shaft-300">
-              Google &#x2022; 3 days ago &bull; 120 Applicants
+                <p className="text-sm text-mine-shaft-400 mt-1">
+                  Google • 3 days ago • 120 Applicants
+                </p>
+              </div>
+            </div>
+
+            <Link to="/apply-job">
+              <Button color="brightSun.4" variant="light" radius="md">
+                Apply
+              </Button>
+            </Link>
+          </div>
+
+          <Divider my="xl" />
+
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-mine-shaft-50">
+              Submit Your Application
+            </h2>
+
+            <p className="text-sm text-mine-shaft-400 mt-1">
+              Fill in your details carefully before submitting your application.
             </p>
           </div>
-        </div>
 
-        <Link to="/apply-job">
-          <Button color="brightSun.4" variant="light">
-            Apply
-          </Button>
-        </Link>
-      </div>
-
-      <Divider my="xl" />
-
-      <div>
-        <h2 className="text-xl font-semibold mb-6">
-          Submit Your Application
-        </h2>
-
-        {/* Success Alert */}
-        {submitted && (
-          <Alert
-            icon={<IconCheck size={18} />}
-            color="green"
-            radius="md"
-            mb="lg"
-            title="Application Submitted"
-          >
-            🎉 Your application has been submitted successfully!
-          </Alert>
-        )}
-
-        <div className="flex flex-col gap-5">
-          {/* Row 1 */}
-          <div className="flex gap-10 [&>*]:w-1/2">
-            <TextInput
-              value={fullName}
-              onChange={(e) => setFullName(e.currentTarget.value)}
-              readOnly={preview}
-              variant={preview ? "unstyled" : "default"}
-              className={preview ? "font-semibold text-mine-shaft-300" : ""}
-              withAsterisk
-              label="Full Name"
-              placeholder="Enter your full name"
-            />
-
-            <TextInput
-              value={email}
-              onChange={(e) => setEmail(e.currentTarget.value)}
-              readOnly={preview}
-              variant={preview ? "unstyled" : "default"}
-              className={preview ? "font-semibold text-mine-shaft-300" : ""}
-              withAsterisk
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          {/* Row 2 */}
-          <div className="flex gap-10 [&>*]:w-1/2">
-            <TextInput
-              value={phone}
-              onChange={(e) => setPhone(e.currentTarget.value)}
-              readOnly={preview}
-              variant={preview ? "unstyled" : "default"}
-              className={preview ? "font-semibold text-mine-shaft-300" : ""}
-              withAsterisk
-              label="Phone Number"
-              type="tel"
-              placeholder="Enter your phone number"
-            />
-
-            <TextInput
-              value={website}
-              onChange={(e) => setWebsite(e.currentTarget.value)}
-              readOnly={preview}
-              variant={preview ? "unstyled" : "default"}
-              className={preview ? "font-semibold text-mine-shaft-300" : ""}
-              label="Personal Website"
-              placeholder="https://yourwebsite.com"
-            />
-          </div>
-
-          {/* Resume Upload */}
-          <FileInput
-            value={resume}
-            onChange={setResume}
-            disabled={preview}
-            variant={preview ? "unstyled" : "default"}
-            className={preview ? "font-semibold text-mine-shaft-300" : ""}
-            withAsterisk
-            label="Attach Your CV"
-            placeholder="Choose your resume"
-            accept=".pdf,.doc,.docx"
-            leftSection={!preview ? <IconUpload size={18} /> : undefined}
-            clearable={!preview}
-          />
-
-          {/* Cover Letter */}
-          <Textarea
-            value={coverLetter}
-            onChange={(e) => setCoverLetter(e.currentTarget.value)}
-            readOnly={preview}
-            variant={preview ? "unstyled" : "default"}
-            className={preview ? "font-semibold text-mine-shaft-300" : ""}
-            label="Cover Letter"
-            placeholder="Write your cover letter..."
-            minRows={6}
-          />
-
-          {/* Buttons */}
-          <div className="flex gap-4 mt-4">
-            <Button
-              color="brightSun.4"
-              variant={preview ? "outline" : "filled"}
-              fullWidth
-              onClick={handlePreview}
+          {submitted && (
+            <Alert
+              color="green"
+              radius="md"
+              icon={<IconCheck size={18} />}
+              title="Application Submitted Successfully"
+              mb="xl"
             >
-              {preview ? "Edit" : "Preview"}
-            </Button>
+              Your application has been submitted successfully. You will be
+              redirected automatically.
+            </Alert>
+          )}
 
-            {preview && (
+          <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <TextInput
+                withAsterisk
+                label="Full Name"
+                placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.currentTarget.value)}
+                readOnly={preview}
+                variant={preview ? "unstyled" : "default"}
+              />
+
+              <TextInput
+                withAsterisk
+                label="Email"
+                placeholder="john@gmail.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
+                readOnly={preview}
+                variant={preview ? "unstyled" : "default"}
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <TextInput
+                withAsterisk
+                label="Phone Number"
+                placeholder="+91 9876543210"
+                value={phone}
+                onChange={(e) => setPhone(e.currentTarget.value)}
+                readOnly={preview}
+                variant={preview ? "unstyled" : "default"}
+              />
+
+              <TextInput
+                label="Portfolio / Website"
+                placeholder="https://yourportfolio.com"
+                value={website}
+                onChange={(e) => setWebsite(e.currentTarget.value)}
+                readOnly={preview}
+                variant={preview ? "unstyled" : "default"}
+              />
+            </div>
+
+            <FileInput
+              withAsterisk
+              label="Upload Resume"
+              placeholder="Choose your resume"
+              value={resume}
+              onChange={setResume}
+              disabled={preview}
+              variant={preview ? "unstyled" : "default"}
+              accept=".pdf,.doc,.docx"
+              leftSection={!preview ? <IconUpload size={18} /> : undefined}
+              clearable={!preview}
+            />
+
+            <Textarea
+              label="Cover Letter"
+              placeholder="Write your cover letter..."
+              minRows={7}
+              value={coverLetter}
+              onChange={(e) => setCoverLetter(e.currentTarget.value)}
+              readOnly={preview}
+              variant={preview ? "unstyled" : "default"}
+            />
+                        {/* Action Buttons */}
+            <div className="flex gap-4 pt-2">
               <Button
                 color="brightSun.4"
+                variant={preview ? "outline" : "filled"}
+                radius="md"
+                size="md"
                 fullWidth
-                onClick={handleSubmit}
+                onClick={handlePreview}
               >
-                Submit Application
+                {preview ? "Edit Application" : "Preview"}
               </Button>
-            )}
+
+              {preview && (
+                <Button
+                  color="brightSun.4"
+                  radius="md"
+                  size="md"
+                  fullWidth
+                  onClick={handleSubmit}
+                >
+                  Submit Application
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
+        </Paper>
       </div>
-    </div>
-     <Notification className={`!border-bright-sun-400 z-[1001] transition duration-300 ease-in-out !fixed top-0 left-[35%] -translate-y-20 ${submitted?"translate-y-0":""}`} icon={<IconCheck style={{width: rem(20), height: rem(20)}} />}
-     color="teal"
-     withBorder title="Application Submitted"
-     mt="md"
-     withCloseButton={false}>
-      Redirecting to Find Jobs in {sec} seconds...
+
+      <Notification
+        icon={
+          <IconCheck
+            style={{
+              width: rem(20),
+              height: rem(20),
+            }}
+          />
+        }
+        color="teal"
+        title="Application Submitted"
+        withBorder
+        withCloseButton={false}
+        className={`!fixed left-1/2 top-6 z-[1001] -translate-x-1/2 transition-all duration-500 ${
+          submitted
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-20 opacity-0"
+        }`}
+      >
+        Redirecting to Find Jobs in{" "}
+        <span className="font-semibold">{sec}</span> seconds...
       </Notification>
     </>
   );

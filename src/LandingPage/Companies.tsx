@@ -11,16 +11,7 @@ const Companies=()=>{
     companies.map((companies,index) => <div key= {index} className="mx-8 px-2 py-1 hover:bg-mine-shaft-400 rounded-xl cursor-pointer"> 
     <img className="h-14 " src={`/Companies/${companies}.png`} alt={companies} /> 
     </div>)
-
-
    }
-
-
-
-
-
-
-
    </Marquee>
 
 
